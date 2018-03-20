@@ -29,3 +29,6 @@ A "NewsItem" Entity may contain the following:
 * Parts: ContentWithApproval, Gallery
 * Properties: Header, Body + all the above properties
 * Actions: all the above actions
+
+
+Continue reading [Repositories](repositories.md)..
