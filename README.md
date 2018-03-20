@@ -12,3 +12,8 @@ The current state of this repo is to provide requirements and specs to build Cor
 ## Technology
 * .NET Core for server side APIs
 * Angular or Vue for Client side UI
+
+## Getting started documentation
+* [Entities](docs/entities.md)
+* [Parts](docs/parts.md)
+* [Repositories](docs/repositories.md)
