@@ -21,3 +21,6 @@ Actions are similar to methods or events of the class. They are the verbs that t
 * Validate
 * Publish
 * Checkout
+
+
+Continue reading [Parts](parts.md)..
