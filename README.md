@@ -9,11 +9,9 @@ The current state of this repo is to provide requirements and specs to build Cor
 * UI to Manage these entities
 * Very extensible framework to add custom logic into your entities
 
+## Getting started
+* [Read our documentation](docs)
+
 ## Technology
 * .NET Core for server side APIs
 * Angular or Vue for Client side UI
-
-## Getting started documentation
-* [Entities](docs/entities.md)
-* [Parts](docs/parts.md)
-* [Repositories](docs/repositories.md)
