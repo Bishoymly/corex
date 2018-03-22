@@ -5,3 +5,4 @@
 * [Parts](parts.md)
 * [Repositories](repositories.md)
 * [Validations](validations.md)
+* [UI](ui.md)
