@@ -17,11 +17,13 @@ Each property type will have a default UIControl in case this is left empty in t
 Here the designer has the option to provide his own HTML view/control that render this entity/part. For example an image gallery part that contains a list of image paths may be rendered using multiple views/plugins, in this case the part UIControl is set to the view that will be used to render this component, in this case this view will override the default rendering of properties designed above.
 
 ## Views
-Each entity may have more than one view. The above options are always available when designing entities to provide default values if views are not designed. But let's say we want to design the Create form different than the Edit form for the same entity. In this case we have 2 Views:
+Each entity can be rendered by default from the above mentioned UI attributes. However usually the same entity may have more than one UI variations being displayed in different pages of the system. These variations are called views.
+
+Let's say we want to design the Create form different than the Edit form for the same entity. In this case we have 2 Views:
 * Create: which uses default values provided by entity designer but override some of them (for example hides some properties during Create)
 * Edit: again override different variations of the default values (like disable the Title property only in Edit)
 
-Note that in different views, properties can be ordered differently, can be displayed using different UIControl
+Note that in different views, properties can be ordered differently, can be displayed using different UIControls or can even have more validations than the original entity requires.
 
 Some more examples of views are:
 * List: this default view defines which properties appear on listing page, in which order, and using which controls
