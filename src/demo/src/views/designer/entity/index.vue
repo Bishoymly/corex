@@ -8,8 +8,11 @@
     <!-- main section -->
     <section class="main" v-show="entity.properties.length">
       <ul class="property-list">
-        <property @toggleProperty='toggleProperty' @editProperty='editProperty' @deleteProperty='deleteProperty' v-for="(property, name) in entity.properties" :key="name"
-          :property="property"></property>
+        <disabled-property :property="entity.id"></disabled-property>
+        <draggable v-model="entity.properties" :options="{group:'properties'}" @start="drag=true" @end="drag=false">
+          <property @toggleProperty='toggleProperty' @editProperty='editProperty' @deleteProperty='deleteProperty' v-for="(property, name) in entity.properties" :key="name"
+            :property="property"></property>
+        </draggable>
         <input class="new-property" autocomplete="off" placeholder="add" @keyup.enter="addProperty">
       </ul>
     </section>
@@ -28,19 +31,21 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import Property from './Property.vue'
+import DisabledProperty from './DisabledProperty.vue'
 
 export default {
-  components: { Property },
+  components: { DisabledProperty, Property, draggable },
   data() {
     return {
       entity: {
         name: "Order",
-        properties: [
-          {
+        id: {
             name: "Id",
             type: "Guid"
-          },
+        },
+        properties: [
           {
             name: "Date",
             type: "DateTime"
@@ -48,9 +53,34 @@ export default {
           {
             name: "Username",
             type: "String"
+          },
+          {
+            name: "BillingAddress",
+            type: "Part",
+            part: "Address",
+            properties: [
+              {
+                name: "Street",
+                type: "String"
+              },
+              {
+                name: "City",
+                type: "String"
+              },
+              {
+                name: "ZipCode",
+                type: "String"
+              }
+            ]
           }
         ]
       }
+    }
+  },
+  computed: {
+    // a computed getter
+    allProperties: function () {
+      return this.entity.properties
     }
   },
   methods: {
@@ -70,7 +100,7 @@ export default {
       this.entity.properties.splice(this.entity.properties.indexOf(property), 1)
     },
     editProperty({ property, value }) {
-      property.text = value
+      property.name = value
     },
     clearCompleted() {
       this.entity.properties = this.properties.filter(property => !property.done)
