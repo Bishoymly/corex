@@ -3,6 +3,14 @@
   <section class="entityapp">
     <!-- header -->
     <header class="header">
+      <ul class="filters right">
+        <li>
+          <a class="selected">Properties</a>
+          <a class="">Actions</a>
+          <a class="">Validations</a>
+          <a class="">UI</a>
+        </li>
+      </ul>
       <h2>{{entity.name}}</h2>
     </header>
     <!-- main section -->
@@ -13,18 +21,12 @@
           <property @toggleProperty='toggleProperty' @editProperty='editProperty' @deleteProperty='deleteProperty' v-for="(property, name) in entity.properties" :key="name"
             :property="property"></property>
         </draggable>
-        <input class="new-property" autocomplete="off" placeholder="add" @keyup.enter="addProperty">
+        <input class="new-property" autocomplete="off" placeholder="Add" @keyup.enter="addProperty">
       </ul>
     </section>
     <!-- footer -->
     <footer class="footer" v-show="entity.properties.length">
-      <ul class="filters">
-        <li>
-          <a class="selected">parts</a>
-          <a class="">properties</a>
-          <a class="">UI</a>
-        </li>
-      </ul>
+      Ready
     </footer>
   </section>
 </div>
@@ -73,6 +75,12 @@ export default {
               }
             ]
           }
+        ],
+        actions: [
+          "Get",
+          "Create",
+          "Update",
+          "Delete"
         ]
       }
     }
@@ -88,7 +96,8 @@ export default {
       const text = e.target.value
       if (text.trim()) {
         this.entity.properties.push({
-          name: text
+          name: text,
+          type: 'String'
         })
       }
       e.target.value = ''
