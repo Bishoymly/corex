@@ -4,7 +4,8 @@ using System.Text;
 
 namespace CoreX.Models
 {
-    public class Validation
+    public class EntityAction
     {
+        public virtual string Name { get; set; }
     }
 }

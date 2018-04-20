@@ -8,13 +8,13 @@ namespace CoreX.Models
     public class Part : ModelItem
     {
         public virtual IEnumerable<ModelItem> Items { get; set; } = new List<ModelItem>();
-        public virtual IEnumerable<Action> Actions { get; set; } = new List<Action>();
+        public virtual IEnumerable<EntityAction> Actions { get; set; } = new List<EntityAction>();
         
         public virtual IEnumerable<Property> Properties
         {
             get
             {
-                return Items.Where(item => item.Type == ModelItemType.Property).Cast<Property>();
+                return Items.Where(item => item.ItemType == ModelItemType.Property).Cast<Property>();
             }
         }
 
@@ -22,7 +22,7 @@ namespace CoreX.Models
         {
             get
             {
-                return Items.Where(item => item.Type == ModelItemType.Part).Cast<Part>();
+                return Items.Where(item => item.ItemType == ModelItemType.Part).Cast<Part>();
             }
         }
 
@@ -34,12 +34,12 @@ namespace CoreX.Models
 
                 foreach (var item in Items)
                 {
-                    if(item.Type == ModelItemType.Property)
+                    if(item.ItemType == ModelItemType.Property)
                     {
                         result.Add(item as Property);
                     }
 
-                    if(item.Type == ModelItemType.Part)
+                    if(item.ItemType == ModelItemType.Part)
                     {
                         foreach (var subItem in (item as Part).AllProperties)
                         {
@@ -54,11 +54,11 @@ namespace CoreX.Models
             }
         }
 
-        public virtual IEnumerable<Action> AllActions
+        public virtual IEnumerable<EntityAction> AllActions
         {
             get
             {
-                var result = new List<Action>(Actions);
+                var result = new List<EntityAction>(Actions);
 
                 foreach (var part in Parts)
                 {
@@ -67,6 +67,11 @@ namespace CoreX.Models
 
                 return result.OrderBy(a => a.Name);
             }
+        }
+
+        public Part()
+        {
+            base.ItemType = ModelItemType.Part;
         }
     }
 }

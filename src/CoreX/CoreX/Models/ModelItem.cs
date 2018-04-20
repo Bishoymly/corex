@@ -7,6 +7,6 @@ namespace CoreX.Models
     public class ModelItem
     {
         public virtual string Name { get; set; }
-        public virtual ModelItemType Type { get; set; }
+        public virtual ModelItemType ItemType { get; set; }
     }
 }

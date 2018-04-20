@@ -4,8 +4,7 @@ using System.Text;
 
 namespace CoreX.Models
 {
-    public class Action
+    public interface IValidation
     {
-        public virtual string Name { get; set; }
     }
 }

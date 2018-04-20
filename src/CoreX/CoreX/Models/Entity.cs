@@ -6,6 +6,6 @@ namespace CoreX.Models
 {
     public class Entity : Part
     {
-        
+        public virtual PropertyType PrimaryKeyType { get; set; } = PropertyType.UniqueIdentifier;
     }
 }
