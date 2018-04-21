@@ -2,51 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace CoreX.Models
 {
-    public class Part : ModelItem
+    public class Part
     {
-        public virtual IEnumerable<ModelItem> Items { get; set; } = new List<ModelItem>();
-        public virtual IEnumerable<EntityAction> Actions { get; set; } = new List<EntityAction>();
-        
-        public virtual IEnumerable<Property> Properties
-        {
-            get
-            {
-                return Items.Where(item => item.ItemType == ModelItemType.Property).Cast<Property>();
-            }
-        }
+        public virtual string Name { get; set; }
+        public virtual IList<Property> Properties { get; set; } = new List<Property>();
+        public virtual IList<EntityAction> Actions { get; set; } = new List<EntityAction>();
 
+        [JsonIgnore]
         public virtual IEnumerable<Part> Parts
         {
             get
             {
-                return Items.Where(item => item.ItemType == ModelItemType.Part).Cast<Part>();
+                return Properties.Where(item => item.Type == PropertyType.Part).Select(p => (Part)p.Reference);
             }
         }
 
+        [JsonIgnore]
         public virtual IEnumerable<Property> AllProperties
         {
             get
             {
                 var result = new List<Property>();
 
-                foreach (var item in Items)
+                foreach (var property in Properties)
                 {
-                    if(item.ItemType == ModelItemType.Property)
+                    if (property.Type == PropertyType.Part)
                     {
-                        result.Add(item as Property);
-                    }
-
-                    if(item.ItemType == ModelItemType.Part)
-                    {
-                        foreach (var subItem in (item as Part).AllProperties)
+                        foreach (var subProperty in (property.Reference as Part).AllProperties)
                         {
-                            var subProperty = subItem.Clone() as Property;
-                            subProperty.Name = subItem.Name + subProperty.Name;
+                            subProperty.Name = property.Name + subProperty.Name;
                             result.Add(subProperty);
                         }
+                    }
+                    else
+                    {
+                        result.Add(property as Property);
                     }
                 }
 
@@ -54,6 +48,7 @@ namespace CoreX.Models
             }
         }
 
+        [JsonIgnore]
         public virtual IEnumerable<EntityAction> AllActions
         {
             get
@@ -71,7 +66,12 @@ namespace CoreX.Models
 
         public Part()
         {
-            base.ItemType = ModelItemType.Part;
+            
+        }
+
+        public Part(string name)
+        {
+            Name = name;
         }
     }
 }

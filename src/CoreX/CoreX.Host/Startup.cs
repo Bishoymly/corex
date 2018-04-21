@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace CoreX.Host
 {
@@ -35,6 +37,19 @@ namespace CoreX.Host
             }
 
             app.UseMvc();
+
+            JsonConvert.DefaultSettings = () =>
+            {
+                var settings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+
+                settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
+                return settings;
+            };
         }
     }
 }

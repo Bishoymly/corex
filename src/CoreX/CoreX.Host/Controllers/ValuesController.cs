@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreX.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreX.Host.Controllers
@@ -13,7 +15,18 @@ namespace CoreX.Host.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var model = Samples.CreateSampleModel();
+            var result = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+            System.IO.File.WriteAllText("SampleModel.json", result);
+
+            var model2 = Newtonsoft.Json.JsonConvert.DeserializeObject<Model>(System.IO.File.ReadAllText("SampleModel.json"));
+            model2.Initialize();
+            var result2 = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+
+            if (result2 != result)
+                throw new Exception("Serialization Error");
+
+            return new string[] { result };
         }
 
         // GET api/values/5

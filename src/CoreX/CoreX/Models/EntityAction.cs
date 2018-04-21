@@ -7,5 +7,10 @@ namespace CoreX.Models
     public class EntityAction
     {
         public virtual string Name { get; set; }
+
+        public EntityAction(string name)
+        {
+            Name = name;
+        }
     }
 }

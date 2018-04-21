@@ -15,19 +15,19 @@ namespace CoreX.Host
             var audited = new Part
             {
                 Name = "Audited",
-                Items = new List<ModelItem>
+                Properties = new List<Property>
                 {
-                    new Property{Name = "DateCreated", Type = PropertyType.DateTime, Required = true },
-                    new Property{Name = "DateModified", Type = PropertyType.DateTime, Required = false },
-                    new Property{Name = "CreatedBy", Type = PropertyType.UniqueIdentifier, Required = true },
-                    new Property{Name = "ModifiedBy", Type = PropertyType.UniqueIdentifier, Required = false }
+                    new Property("DateCreated", PropertyType.DateTime, true),
+                    new Property("DateModified", PropertyType.DateTime, false),
+                    new Property("CreatedBy", PropertyType.UniqueIdentifier, true),
+                    new Property("ModifiedBy", PropertyType.UniqueIdentifier, false)
                 },
                 Actions = new List<EntityAction>
                 {
-                    new EntityAction{Name = "Get" },
-                    new EntityAction{Name = "Create" },
-                    new EntityAction{Name = "Update" },
-                    new EntityAction{Name = "Delete" }                    
+                    new EntityAction("Get"),
+                    new EntityAction("Create"),
+                    new EntityAction("Update"),
+                    new EntityAction("Delete")
                 }
             };
             model.Parts.Add(audited);
@@ -35,16 +35,16 @@ namespace CoreX.Host
             var log = new Part
             {
                 Name = "LogItem",
-                Items = new List<ModelItem>
+                Properties = new List<Property>
                 {
-                    new Property{Name = "DateCreated", Type = PropertyType.DateTime, Required = true },
-                    new Property{Name = "CreatedBy", Type = PropertyType.String, Required = true },
+                    new Property("DateCreated", PropertyType.DateTime, true),
+                    new Property("CreatedBy", PropertyType.String, true),
                 },
                 Actions = new List<EntityAction>
                 {
-                    new EntityAction{Name = "Get" },
-                    new EntityAction{Name = "Create" },
-                    new EntityAction{Name = "Archive" }
+                    new EntityAction("Get"),
+                    new EntityAction("Create"),
+                    new EntityAction("Archive")
                 }
             };
             model.Parts.Add(log);
@@ -52,26 +52,28 @@ namespace CoreX.Host
             model.Entities.Add(new Entity
             {
                 Name = "Product",
-                Items = new List<ModelItem>
+                Properties = new List<Property>
                 {
-                    new Property{Name = "Name", Type = PropertyType.String, Required = true },
-                    new Property{Name = "Image", Type = PropertyType.String, Required = false },
-                    new Property{Name = "Price", Type = PropertyType.Decimal, Required = true },
-                    new Property{Name = "Quantity", Type = PropertyType.Integer, Required = false },
-                    audited
+                    new Property("Name", PropertyType.String, true),
+                    new Property("Image", PropertyType.String, false),
+                    new Property("Price", PropertyType.Decimal, true),
+                    new Property("Quantity", PropertyType.Integer, false),
+                    new Property("", "Audited")
                 }
             });
 
             model.Entities.Add(new Entity
             {
                 Name = "AuditLog",
-                Items = new List<ModelItem>
+                Properties = new List<Property>
                 {
-                    new Property{Name = "Action", Type = PropertyType.String, Required = true },
-                    new Property{Name = "Comment", Type = PropertyType.String, Required = false },
-                    log
+                    new Property("Action", PropertyType.String, true),
+                    new Property("Comment", PropertyType.String, false),
+                    new Property("", "LogItem")
                 }
             });
+
+            model.Initialize();
 
             return model;
         }

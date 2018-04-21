@@ -12,6 +12,7 @@ namespace CoreX.Models
         Decimal,
         DateTime,
         UniqueIdentifier,
-        Location
+        Location,
+        Part
     }
 }

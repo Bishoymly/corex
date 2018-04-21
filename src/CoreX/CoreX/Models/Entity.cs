@@ -7,5 +7,14 @@ namespace CoreX.Models
     public class Entity : Part
     {
         public virtual PropertyType PrimaryKeyType { get; set; } = PropertyType.UniqueIdentifier;
+
+        public Entity()
+        {
+
+        }
+
+        public Entity(string name) : base(name)
+        {
+        }
     }
 }
