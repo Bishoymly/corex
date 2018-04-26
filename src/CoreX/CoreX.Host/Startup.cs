@@ -26,17 +26,6 @@ namespace CoreX.Host
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseMvc();
 
             JsonConvert.DefaultSettings = () =>
             {
@@ -50,6 +39,23 @@ namespace CoreX.Host
 
                 return settings;
             };
+
+            // Create sample model
+            var model = Samples.CreateSampleModel();
+            var result = JsonConvert.SerializeObject(model);
+            System.IO.File.WriteAllText("Generated\\Model.json", result);
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseCoreX();
+            app.UseMvc();
         }
     }
 }

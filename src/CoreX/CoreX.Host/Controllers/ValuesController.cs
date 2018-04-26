@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreX.Emit;
 using CoreX.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CoreX.Host.Controllers
 {
@@ -13,20 +15,10 @@ namespace CoreX.Host.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ContentResult Get()
         {
-            var model = Samples.CreateSampleModel();
-            var result = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-            System.IO.File.WriteAllText("SampleModel.json", result);
-
-            var model2 = Newtonsoft.Json.JsonConvert.DeserializeObject<Model>(System.IO.File.ReadAllText("SampleModel.json"));
-            model2.Initialize();
-            var result2 = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-
-            if (result2 != result)
-                throw new Exception("Serialization Error");
-
-            return new string[] { result };
+            var model = Services.Runtime.Model;
+            return Content(JsonConvert.SerializeObject(model), "application/json");
         }
 
         // GET api/values/5
