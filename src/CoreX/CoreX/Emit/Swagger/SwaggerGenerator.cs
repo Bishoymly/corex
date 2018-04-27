@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using CoreX.Models;
+using Newtonsoft.Json;
 
 namespace CoreX.Emit.Swagger
 {
@@ -10,19 +11,31 @@ namespace CoreX.Emit.Swagger
         public void GenerateCode(Model model)
         {
             var path = "Generated\\swagger.json";
-            var root = new Rootobject
+            
+            var doc = new SwaggerDocument
             {
-                swagger = "2.0",
-                basePath = "/corex/api/",
-                info = new Info
+                BasePath = "/corex/api/",
+                Info = new Info
                 {
-                    title = "CoreX API Swagger",
-                    version = "1.0.0"
+                    Title = "CoreX API Swagger",
+                    Version = "1.0.0"
                 },
-                schemes = new string[] { "http", "https" },
-                tags = new List<Tag1>()
+                Schemes = new string[] { "http", "https" },
+                Tags = new List<Tag>(),
+                Paths = new Dictionary<string, PathItem>()
             };
 
+            foreach (var entity in model.Entities)
+            {
+                var tag = new Tag
+                {
+                    Name = entity.Name
+                };
+
+                doc.Tags.Add(tag);
+            }
+
+            System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(doc));
         }
     }
 }

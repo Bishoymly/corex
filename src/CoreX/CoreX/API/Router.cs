@@ -30,7 +30,8 @@ namespace CoreX.API
                 {
                     if (pathComponents[2].Equals("Swagger", StringComparison.OrdinalIgnoreCase))
                     {
-                        string fileName = context.Request.Path.Value.Substring(context.Request.Path.Value.LastIndexOf('/') + 1);
+                        // Swagger routes
+                        var fileName = context.Request.Path.Value.Substring(context.Request.Path.Value.LastIndexOf('/') + 1);
                         if(fileName.Equals("Swagger", StringComparison.OrdinalIgnoreCase))
                         {
                             context.Response.Redirect($"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}{context.Request.Path}/");
@@ -42,13 +43,23 @@ namespace CoreX.API
                             fileName = "index.html";
                         }
 
-                        var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CoreX.wwwroot.swagger." + fileName);
+                        Stream stream;
+                        if(fileName == "swagger.json")
+                        {
+                            stream = new FileStream("Generated//swagger.json", FileMode.Open);
+                        }
+                        else
+                        {
+                            stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CoreX.wwwroot.swagger." + fileName);
+                        }
+                        
                         context.Response.ContentType = MimeTypes.GetMimeType(fileName);
                         await stream.CopyToAsync(context.Response.Body);
                         return;
                     }
                     else
                     {
+                        // API routes
                         var entityName = pathComponents[2];
                         var action = context.Request.Method;
 
