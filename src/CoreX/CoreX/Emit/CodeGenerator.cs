@@ -10,8 +10,13 @@ using Microsoft.CodeAnalysis.Emit;
 
 namespace CoreX.Emit
 {
-    public static class CodeGenerator
+    public class CodeGenerator : ICodeGenerator
     {
+        public void GenerateCode(Model model)
+        {
+            EmitModels(model);
+        }
+
         public static void EmitModels(Model model)
         {
             var path = "Generated\\CoreX.Generated.dll";
