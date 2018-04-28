@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CoreX.Models
 {
-    public enum ActionSchema
+    public enum ActionType
     {
         Nothing,
         Id,

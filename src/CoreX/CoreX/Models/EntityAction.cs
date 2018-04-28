@@ -7,10 +7,10 @@ namespace CoreX.Models
     public class EntityAction
     {
         public virtual string Name { get; set; }
-        public virtual ActionSchema Input { get; set; }
-        public virtual ActionSchema Output { get; set; }
+        public virtual ActionType Input { get; set; }
+        public virtual ActionType Output { get; set; }
 
-        public EntityAction(string name, ActionSchema input, ActionSchema output)
+        public EntityAction(string name, ActionType input, ActionType output)
         {
             Name = name;
             Input = input;

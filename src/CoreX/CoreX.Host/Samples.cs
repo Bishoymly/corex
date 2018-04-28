@@ -24,11 +24,11 @@ namespace CoreX.Host
                 },
                 Actions = new List<EntityAction>
                 {
-                    new EntityAction("GetAll", ActionSchema.Nothing, ActionSchema.List),
-                    new EntityAction("Get", ActionSchema.Id, ActionSchema.Entity),
-                    new EntityAction("Create", ActionSchema.Entity, ActionSchema.Entity),
-                    new EntityAction("Update", ActionSchema.Entity, ActionSchema.Entity),
-                    new EntityAction("Delete", ActionSchema.Id, ActionSchema.Nothing)
+                    new EntityAction("GetAll", ActionType.Nothing, ActionType.List),
+                    new EntityAction("Get", ActionType.Id, ActionType.Entity),
+                    new EntityAction("Create", ActionType.Entity, ActionType.Entity),
+                    new EntityAction("Update", ActionType.Entity, ActionType.Entity),
+                    new EntityAction("Delete", ActionType.Id, ActionType.Nothing)
                 }
             };
             model.Parts.Add(audited);
@@ -43,9 +43,9 @@ namespace CoreX.Host
                 },
                 Actions = new List<EntityAction>
                 {
-                    new EntityAction("GetAll", ActionSchema.Nothing, ActionSchema.List),
-                    new EntityAction("Create", ActionSchema.Entity, ActionSchema.Nothing),
-                    new EntityAction("Archive", ActionSchema.Nothing, ActionSchema.Nothing)
+                    new EntityAction("GetAll", ActionType.Nothing, ActionType.List),
+                    new EntityAction("Create", ActionType.Entity, ActionType.Nothing),
+                    new EntityAction("Archive", ActionType.Nothing, ActionType.Nothing)
                 }
             };
             model.Parts.Add(log);

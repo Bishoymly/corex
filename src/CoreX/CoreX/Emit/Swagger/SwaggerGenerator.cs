@@ -63,7 +63,7 @@ namespace CoreX.Emit.Swagger
                 {
                     var url = $"/{name}/{action.Name.ToLower()}";
 
-                    if(action.Input == ActionSchema.Id)
+                    if(action.Input == ActionType.Id)
                     {
                         url += "/{id}";
                     }
@@ -88,9 +88,9 @@ namespace CoreX.Emit.Swagger
 
                     switch (action.Input)
                     {
-                        case ActionSchema.Nothing:
+                        case ActionType.Nothing:
                             break;
-                        case ActionSchema.Id:
+                        case ActionType.Id:
                             operation.Parameters.Add(new NonBodyParameter
                             {
                                 Name = "id",
@@ -100,7 +100,7 @@ namespace CoreX.Emit.Swagger
                                 Format = GetJavascriptType(entity.PrimaryKeyType)
                             });
                             break;
-                        case ActionSchema.Entity:
+                        case ActionType.Entity:
                             operation.Parameters.Add(new BodyParameter
                             {
                                 In = "body",
@@ -113,7 +113,7 @@ namespace CoreX.Emit.Swagger
                                 }
                             });
                             break;
-                        case ActionSchema.List:
+                        case ActionType.List:
                             operation.Parameters.Add(new BodyParameter
                             {
                                 In = "body",
@@ -134,10 +134,10 @@ namespace CoreX.Emit.Swagger
 
                     switch (action.Output)
                     {
-                        case ActionSchema.Nothing:
+                        case ActionType.Nothing:
                             operation.Responses.Add("200", new Response { Description = "Success" });
                             break;
-                        case ActionSchema.Id:
+                        case ActionType.Id:
                             operation.Responses.Add("200", new Response
                             {
                                 Description = "Success",
@@ -147,14 +147,14 @@ namespace CoreX.Emit.Swagger
                                 }
                             });
                             break;
-                        case ActionSchema.Entity:
+                        case ActionType.Entity:
                             operation.Responses.Add("200", new Response
                             {
                                 Description = "Success",
                                 Schema = new Schema { Ref = "#/definitions/" + entity.Name.Camelize() }
                             });
                             break;
-                        case ActionSchema.List:
+                        case ActionType.List:
                             operation.Responses.Add("200", new Response
                             {
                                 Description = "Success",
