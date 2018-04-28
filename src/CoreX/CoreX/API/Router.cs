@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using CoreX.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -28,6 +29,7 @@ namespace CoreX.API
             {
                 if (pathComponents.Length > 2)
                 {
+                    var model = Runtime.Model;
                     if (pathComponents[2].Equals("Swagger", StringComparison.OrdinalIgnoreCase))
                     {
                         // Swagger routes
@@ -52,9 +54,12 @@ namespace CoreX.API
                         {
                             stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CoreX.wwwroot.swagger." + fileName);
                         }
-                        
-                        context.Response.ContentType = MimeTypes.GetMimeType(fileName);
-                        await stream.CopyToAsync(context.Response.Body);
+
+                        using (stream)
+                        {
+                            context.Response.ContentType = MimeTypes.GetMimeType(fileName);
+                            await stream.CopyToAsync(context.Response.Body);
+                        }
                         return;
                     }
                     else
