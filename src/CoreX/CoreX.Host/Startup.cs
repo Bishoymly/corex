@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -43,7 +44,16 @@ namespace CoreX.Host
             // Create sample model
             var model = Samples.CreateSampleModel();
             var result = JsonConvert.SerializeObject(model);
-            System.IO.File.WriteAllText("Generated\\Model.json", result);
+
+            var filePath = "Generated\\Model.json";
+            var directory = Path.GetDirectoryName(filePath);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            System.IO.File.WriteAllText(filePath, result);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

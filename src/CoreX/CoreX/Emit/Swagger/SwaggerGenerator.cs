@@ -4,6 +4,7 @@ using System.Text;
 using CoreX.Models;
 using Newtonsoft.Json;
 using Humanizer;
+using System.IO;
 
 namespace CoreX.Emit.Swagger
 {
@@ -12,7 +13,13 @@ namespace CoreX.Emit.Swagger
         public void GenerateCode(Model model)
         {
             var filePath = "Generated\\swagger.json";
-            
+            var directory = Path.GetDirectoryName(filePath);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
             var doc = new SwaggerDocument
             {
                 Host = "localhost",
@@ -61,9 +68,20 @@ namespace CoreX.Emit.Swagger
 
                 foreach (var action in entity.AllActions)
                 {
-                    var url = $"/{name}/{action.Name.ToLower()}";
+                    var url = $"/{name}";
 
-                    if(action.Input == ActionType.Id)
+                    if (!action.Name.Equals("get", StringComparison.OrdinalIgnoreCase)
+                        && !action.Name.Equals("getall", StringComparison.OrdinalIgnoreCase)
+                        && !action.Name.Equals("post", StringComparison.OrdinalIgnoreCase)
+                        && !action.Name.Equals("create", StringComparison.OrdinalIgnoreCase)
+                        && !action.Name.Equals("update", StringComparison.OrdinalIgnoreCase)
+                        && !action.Name.Equals("put", StringComparison.OrdinalIgnoreCase)
+                        && !action.Name.Equals("delete", StringComparison.OrdinalIgnoreCase))
+                    {
+                        url += $"/{action.Name.ToLower()}";
+                    }
+
+                    if (action.Input == ActionType.Id)
                     {
                         url += "/{id}";
                     }
